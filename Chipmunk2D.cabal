@@ -20,7 +20,38 @@ source-repository head
   type:     git
   location: https://github.com/BurningWitness/Chipmunk2D
 
-common includes
+flag debug
+  description: Turn on print debug on library's internal assertions.
+  default: False
+
+flag space-debug
+  description: Enable Space debug draw API.
+  default: True
+
+flag single-precision
+  description: Use C floats (default floating point type is C double).
+  default: False
+
+flag ccall
+  description: Use the ccall FFI calling convention.
+  default: False
+
+flag stdcall
+  description: Use the stdcall FFI calling convention (overrides the ccall flag).
+  default: False
+
+library
+  exposed-modules:     Chipmunk2D
+
+  reexported-modules:  storable-offset:Foreign.Storable.Offset
+
+  build-depends:       base            >= 4.10 && < 5
+                     , storable-offset >= 0.1  && < 0.2
+
+  hs-source-dirs:      src
+
+  ghc-options:         -Wall 
+
   install-includes:    Chipmunk2D/include/chipmunk.h
                        Chipmunk2D/include/chipmunk_structs.h
                        Chipmunk2D/include/chipmunk_unsafe.h
@@ -65,54 +96,23 @@ common includes
 
                        cbits/src/wrapper.c
 
-flag debug
-  description: Turn on print debug on library's internal assertions.
-  default: False
-
-flag space-debug
-  description: Enable Space debug draw API.
-  default: True
-
-flag single-precision
-  description: Use C floats (default floating point type is C double).
-  default: False
-
-flag ccall
-  description: Use the ccall FFI calling convention.
-  default: False
-
-flag stdcall
-  description: Use the stdcall FFI calling convention (overrides the ccall flag).
-  default: False
-
-library
-  import:              includes
-
-  exposed-modules:     Chipmunk2D
-
-  reexported-modules:  storable-offset:Foreign.Storable.Offset
-
-  build-depends:       base            >= 4.10 && < 5
-                     , storable-offset >= 0.1  && < 0.2
-
-  hs-source-dirs:      src
-
-  ghc-options:         -Wall 
+  if os (darwin)
+    cc-options:        -DCP_USE_CGTYPES=0
 
   if flag (stdcall)
-    cpp-options: -DCALLCV=stdcall
+    cpp-options:       -DCALLCV=stdcall
   elif flag (ccall)
-    cpp-options: -DCALLCV=ccall
+    cpp-options:       -DCALLCV=ccall
   else
-    cpp-options: -DCALLCV=capi
+    cpp-options:       -DCALLCV=capi
 
   if !flag (debug)
-    cc-options: -DNDEBUG
+    cc-options:        -DNDEBUG
 
   if !flag (space-debug)
-    cc-options: -DCP_SPACE_DISABLE_DEBUG_API
+    cc-options:        -DCP_SPACE_DISABLE_DEBUG_API
 
   if flag (single-precision)
-    cc-options: -DCP_USE_DOUBLES=0
+    cc-options:        -DCP_USE_DOUBLES=0
 
   default-language:    Haskell98

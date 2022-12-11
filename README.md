@@ -1,7 +1,7 @@
 # Chipmunk2D
 
-Raw bindings to the [Chipmunk2D](https://chipmunk-physics.net/) C library (version 7.0.3), specifically the most recent git version at
-https://github.com/slembcke/Chipmunk2D/commit/7d10641155864bcf0e7f4c7cf1f0327ec7c1d90d
+Raw bindings to the [Chipmunk2D](https://chipmunk-physics.net/) C library (version 7.0.3), specifically the most recent version at
+[Github](https://github.com/slembcke/Chipmunk2D/commit/7d10641155864bcf0e7f4c7cf1f0327ec7c1d90d)
 (includes Apple-specific fixes added right after 7.0.3).
 
 This package reexports the
@@ -17,6 +17,8 @@ Caveats of this library:
 - `data` and `type` record fields are replaced with `data_` and `type_` respectively.
   `GHC.Records.HasField` and `Foreign.Storable.Offset.Offset` instances are defined
   over both variants;
+
+- `CP_USE_CG_TYPES` is explicitly disabled.
 
 ## Maintenance
 Some bindings are bound to have errors in them, feel free to report them through Github.

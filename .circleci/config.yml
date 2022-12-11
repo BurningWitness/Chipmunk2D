@@ -125,7 +125,7 @@ jobs:
           command: |
             stack init --resolver << parameters.resolver >> --omit-packages
             echo -e 'resolver: << parameters.resolver >>\n\nextra-deps:\n- storable-offset-0.1.0.0' > stack.yaml
-            stack build --no-terminal
+            stack build --no-terminal Chipmunk2D:lib
       - save_cache:
           name: Cache
           key: windows-<< parameters.resolver >>-{{ checksum "Chipmunk2D.cabal" }}
