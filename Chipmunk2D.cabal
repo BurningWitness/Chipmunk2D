@@ -1,0 +1,118 @@
+cabal-version:       2.2
+
+name:                Chipmunk2D
+version:             0.1.0.0
+synopsis:            Raw Haskell bindings to Chipmunk2D.
+description:         Raw Haskell bindings to
+                     [Chipmunk2D](https://chipmunk-physics.net/)
+homepage:            https://github.com/BurningWitness/Chipmunk2D
+license:             BSD-3-Clause
+license-file:        LICENSE
+author:              Oleksii Divak
+maintainer:          Oleksii Divak <frozenwitness@gmail.com>
+category:            Codec
+build-type:          Simple
+extra-source-files:  Chipmunk2D/include/chipmunk/*.h
+                     Chipmunk2D/src/*.h
+                     cbits/include/*.h
+
+source-repository head
+  type:     git
+  location: https://github.com/BurningWitness/Chipmunk2D
+
+common includes
+  install-includes:    Chipmunk2D/include/chipmunk.h
+                       Chipmunk2D/include/chipmunk_structs.h
+                       Chipmunk2D/include/chipmunk_unsafe.h
+
+  include-dirs:        Chipmunk2D/include
+                       Chipmunk2D/src
+                       cbits/include
+
+  c-sources:           Chipmunk2D/src/chipmunk.c
+  
+                       Chipmunk2D/src/cpConstraint.c
+                       Chipmunk2D/src/cpSpaceStep.c
+                       Chipmunk2D/src/cpShape.c
+                       Chipmunk2D/src/cpSpace.c
+                       Chipmunk2D/src/cpArbiter.c
+                       Chipmunk2D/src/cpArray.c
+                       Chipmunk2D/src/cpBBTree.c
+                       Chipmunk2D/src/cpBody.c
+                       Chipmunk2D/src/cpCollision.c
+                       Chipmunk2D/src/cpDampedRotarySpring.c
+                       Chipmunk2D/src/cpDampedSpring.c
+                       Chipmunk2D/src/cpGearJoint.c
+                       Chipmunk2D/src/cpGrooveJoint.c
+                       Chipmunk2D/src/cpHashSet.c
+                       Chipmunk2D/src/cpHastySpace.c
+                       Chipmunk2D/src/cpMarch.c
+                       Chipmunk2D/src/cpPinJoint.c
+                       Chipmunk2D/src/cpPivotJoint.c
+                       Chipmunk2D/src/cpPolyline.c
+                       Chipmunk2D/src/cpPolyShape.c
+                       Chipmunk2D/src/cpRatchetJoint.c
+                       Chipmunk2D/src/cpRobust.c
+                       Chipmunk2D/src/cpRotaryLimitJoint.c
+                       Chipmunk2D/src/cpSimpleMotor.c
+                       Chipmunk2D/src/cpSlideJoint.c
+                       Chipmunk2D/src/cpSpaceComponent.c
+                       Chipmunk2D/src/cpSpaceDebug.c
+                       Chipmunk2D/src/cpSpaceHash.c
+                       Chipmunk2D/src/cpSpaceQuery.c
+                       Chipmunk2D/src/cpSpatialIndex.c
+                       Chipmunk2D/src/cpSweep1D.c
+
+                       cbits/src/wrapper.c
+
+flag debug
+  description: Turn on print debug on library's internal assertions.
+  default: False
+
+flag space-debug
+  description: Enable Space debug draw API.
+  default: True
+
+flag single-precision
+  description: Use C floats (default floating point type is C double).
+  default: False
+
+flag ccall
+  description: Use the ccall FFI calling convention.
+  default: False
+
+flag stdcall
+  description: Use the stdcall FFI calling convention (overrides the ccall flag).
+  default: False
+
+library
+  import:              includes
+
+  exposed-modules:     Chipmunk2D
+
+  reexported-modules:  storable-offset:Foreign.Storable.Offset
+
+  build-depends:       base            >= 4.10 && < 5
+                     , storable-offset >= 0.1  && < 0.2
+
+  hs-source-dirs:      src
+
+  ghc-options:         -Wall 
+
+  if flag (stdcall)
+    cpp-options: -DCALLCV=stdcall
+  elif flag (ccall)
+    cpp-options: -DCALLCV=ccall
+  else
+    cpp-options: -DCALLCV=capi
+
+  if !flag (debug)
+    cc-options: -DNDEBUG
+
+  if !flag (space-debug)
+    cc-options: -DCP_SPACE_DISABLE_DEBUG_API
+
+  if flag (single-precision)
+    cc-options: -DCP_USE_DOUBLES=0
+
+  default-language:    Haskell98
