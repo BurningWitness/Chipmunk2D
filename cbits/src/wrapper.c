@@ -588,7 +588,7 @@ void w_cpSegmentShapeGetNormal(const cpShape *shape, cpVect *out)
 
 cpPolyShape* w_cpPolyShapeInit(cpPolyShape *poly, cpBody *body, int count, const cpVect *verts, cpTransform *transform, cpFloat radius)
 {
-  cpPolyShapeInit (poly, body, count, verts, *transform, radius);
+  return cpPolyShapeInit (poly, body, count, verts, *transform, radius);
 }
 
 cpShape* w_cpPolyShapeNew(cpBody *body, int count, const cpVect *verts, cpTransform *transform, cpFloat radius)

@@ -52,9 +52,9 @@ library
 
   ghc-options:         -Wall 
 
-  install-includes:    Chipmunk2D/include/chipmunk.h
-                       Chipmunk2D/include/chipmunk_structs.h
-                       Chipmunk2D/include/chipmunk_unsafe.h
+  install-includes:    Chipmunk2D/include/chipmunk/chipmunk.h
+                       Chipmunk2D/include/chipmunk/chipmunk_structs.h
+                       Chipmunk2D/include/chipmunk/chipmunk_unsafe.h
 
   include-dirs:        Chipmunk2D/include
                        Chipmunk2D/src
