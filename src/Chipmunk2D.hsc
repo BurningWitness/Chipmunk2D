@@ -3,6 +3,7 @@
            , DataKinds
            , DuplicateRecordFields
            , EmptyDataDecls
+           , FlexibleInstances
            , ForeignFunctionInterface
            , MultiParamTypeClasses #-}
 #if __GLASGOW_HASKELL__ >= 902
