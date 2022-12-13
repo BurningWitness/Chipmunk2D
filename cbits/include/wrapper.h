@@ -58,6 +58,8 @@ cpBool w_cpvnear(const cpVect *v1, const cpVect *v2, const cpFloat dist);
 
 
 
+void w_cpMat2x2New(cpFloat a, cpFloat b, cpFloat c, cpFloat d, cpMat2x2 *out);
+
 void w_cpMat2x2Transform(cpMat2x2 *m, cpVect *v, cpVect *out);
 
 // end of cpVect.h

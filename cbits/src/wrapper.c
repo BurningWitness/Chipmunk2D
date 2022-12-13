@@ -138,6 +138,11 @@ cpBool w_cpvnear(const cpVect *v1, const cpVect *v2, const cpFloat dist)
   return cpvnear (*v1, *v2, dist);
 }
 
+void w_cpMat2x2New(cpFloat a, cpFloat b, cpFloat c, cpFloat d, cpMat2x2 *out)
+{
+  *out = cpMat2x2New (a, b, c, d);
+}
+
 void w_cpMat2x2Transform(cpMat2x2 *m, cpVect *v, cpVect *out)
 {
   *out = cpMat2x2Transform (*m, *v);
